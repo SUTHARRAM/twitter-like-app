@@ -1,0 +1,10 @@
+diff --git a/requirements.txt b/requirements.txt
+index c1d1807..74f0c43 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1 +1,2 @@
+-django==2.2
+\ No newline at end of file
++django==2.2
++djangorestframework
+\ No newline at end of file
