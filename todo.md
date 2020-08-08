@@ -1,9 +1,12 @@
 1. Tweets
     -> Creating
         ->Text
-        ->Image
+        ->Image -> Media Storage Server
     -> Delete
     -> Retweeting
+        -> Read only serializer
+        -> Create only serializer
+    -> Liking or Unliking
 
 2. Users
     -> Register

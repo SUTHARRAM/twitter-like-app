@@ -31,6 +31,7 @@ def home_view(request, *args, **kwargs):
 #@authentication_classes([SessionAuthentication, MyCustomAuth])
 @permission_classes([IsAuthenticated,])
 def tweet_create_view(request, *args, **kwargs):
+    print("this is the tweet create view : ", request.POST)
     serializer = TweetCreateSerializer(data = request.POST or None)
     print(serializer)
     if serializer.is_valid(raise_exception=True):
@@ -54,7 +55,7 @@ def tweet_detail_view(request, tweet_id, *args, **kwargs):
     serializer = TweetSerializer(obj)
     return Response(serializer.data, status=200)
 
-@api_view(['POST'])
+@api_view(['DELETE','POST'])
 @permission_classes([IsAuthenticated])
 def tweet_delete_view(request, tweet_id, *args, **kwargs):
     qs = Tweet.objects.filter(id=tweet_id)
@@ -91,6 +92,8 @@ def tweet_action_view(request, *args, **kwargs):
             return Response(serializer.data, status=200)
         elif action == "unlike":
             obj.likes.remove(request.user)
+            serializer = TweetSerializer(obj)
+            return Response(serializer.data, status=200)
         elif action == "retweet":
             new_tweet = Tweet.objects.create(
                 user=request.user, 
@@ -98,7 +101,7 @@ def tweet_action_view(request, *args, **kwargs):
                 content=content
                 )
             serializer = TweetSerializer(new_tweet)
-            return Response(serializer.data, status=200)
+            return Response(serializer.data, status=201)
     return Response({}, status=200)
 
 
