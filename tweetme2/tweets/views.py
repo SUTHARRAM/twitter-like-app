@@ -29,11 +29,10 @@ def home_view(request, *args, **kwargs):
     return render(request,'pages/home.html', context=data)
 @api_view(['POST']) ## http method the client == POST
 #@authentication_classes([SessionAuthentication, MyCustomAuth])
-@permission_classes([IsAuthenticated,])
+@permission_classes([IsAuthenticated])
 def tweet_create_view(request, *args, **kwargs):
-    print("this is the tweet create view : ", request.POST)
-    serializer = TweetCreateSerializer(data = request.POST or None)
-    print(serializer)
+    #print("this is the tweet create view : ", request.data)
+    serializer = TweetCreateSerializer(data = request.data or None)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)

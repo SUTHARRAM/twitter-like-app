@@ -26,7 +26,7 @@ class TweetCreateSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Tweet
-        fields = ['id','content','likes','user']
+        fields = ['id','content','likes']
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -43,7 +43,7 @@ class TweetSerializer(serializers.ModelSerializer):
     og_tweet = TweetCreateSerializer(source='parent' ,read_only=True)
     class Meta:
         model = Tweet
-        fields = ['id', 'user', 'content', 'likes', 'is_retweet', 'og_tweet']
+        fields = ['id', 'content', 'likes', 'is_retweet', 'og_tweet']
 
     def get_likes(self, obj):
         return obj.likes.count()

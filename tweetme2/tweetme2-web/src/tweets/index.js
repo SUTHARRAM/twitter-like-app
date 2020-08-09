@@ -4,5 +4,5 @@ export {
     ActionBtn, 
     Tweet,
     TweetsList,
-    TweetsComponent
+    TweetsComponent,
 }
