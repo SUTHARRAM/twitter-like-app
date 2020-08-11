@@ -11,11 +11,11 @@ if(appEl) {
   ReactDOM.render(<App />, appEl); 
 }
 
+const e = React.createElement
 const tweetsEl = document.getElementById('tweetme-2')
 
 if (tweetsEl) {
-  console.log("THis component is being rendered!"); 
-  ReactDOM.render(<TweetsComponent />, tweetsEl); 
+  ReactDOM.render(e(TweetsComponent, tweetsEl.dataset), tweetsEl); 
 }
 
 // ReactDOM.render(
