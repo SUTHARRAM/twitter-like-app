@@ -29,6 +29,11 @@ User = get_user_model()
 def user_follow_view(request, username, *args, **kwargs):
     me = request.user
     other_user_qs = User.objects.filter(username=username)
+    if me.username == username:
+        my_followers = me.profile.followers.all()
+        my_followers_count = my_followers.count()
+        return Response({"count": my_followers_count}, status=200)
+
     if not other_user_qs.exists():
         return Response({}, status=404)
     other = other_user_qs.first()
@@ -43,6 +48,6 @@ def user_follow_view(request, username, *args, **kwargs):
     else:
         pass
     current_followers_qs = profile.followers.all()
-    print(current_followers_qs.count,'This is count of users')
-    return Response({"count": current_followers_qs.count()}, status=200)
+    qs_count = current_followers_qs.count()
+    return Response({"count": qs_count}, status=200)
 
