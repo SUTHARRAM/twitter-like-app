@@ -19,7 +19,7 @@ export function TweetsList(props) {
       const handleTweetListLookup = (response, status) => {
         //console.log(response, status)
         if (status === 200) {
-          setTweetsInit(response)
+          setTweetsInit(response.results)
           setTweetsDidSet(true)
         } else {
           alert(response.message)  
@@ -46,4 +46,4 @@ export function TweetsList(props) {
               className='my-5 py-5 border bg-white text-dark' 
               key={`${index}-{item.id}`} />
     })
-  }
+}
