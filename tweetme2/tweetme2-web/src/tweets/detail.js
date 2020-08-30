@@ -3,22 +3,16 @@ import React ,{useState} from 'react'
 
 export function ParentTweet(props) {
     const {tweet} = props
-    return tweet.og_tweet ? <div className='row' >
-                              <div className='col-11 mx-auto p-3 border rounded'>
-                                <p className='mb-0 text-muted small'>Retweet</p>
-                                <Tweet hideActions className={' '}  tweet={tweet.og_tweet} />
-                              </div>
-                            </div> 
-                          : null
+    return tweet.og_tweet ? <Tweet isRetweet retweeter={props.retweeter} hideActions className={' '}  tweet={tweet.og_tweet} /> : null
   }
   
     
 export function Tweet(props) {
-      const {tweet, didRetweet, hideActions} = props
+      const {tweet, didRetweet, hideActions, isRetweet, retweeter} = props
       const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
       //console.log("This is the tweets props : ",tweet)
-      const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
-
+      let className = props.className ? props.className : 'col-10 mx-auto col-md-6'
+      className = isRetweet === true ? `${className} p-2 border rounded` : className
       const path = window.location.pathname
       var idRegex = /(?<tweetid>\d+)/
       const match = path.match(idRegex)
@@ -42,12 +36,27 @@ export function Tweet(props) {
       }
   
       return (<div className={className}>
+       {isRetweet === true && <div className='mb-2'> <span className='small text-muted' >Retweet via @{retweeter.username}</span>
+        </div>}
+      <div className='d-flex'>
+        <div className=''>
+          <span className='mx-1 px-3 py-2 rounded-circle bg-dark text-white'>
+            {tweet.user.username[0]}
+          </span>
+        
+        </div>
+        <div className='col-11'>
           <div>
-            <p>{tweet.id} - {tweet.content}</p>
-            <ParentTweet tweet={tweet} />
+            <p>
+              {tweet.user.first_name}{" "}
+              {tweet.user.last_name}{" "}
+              @{tweet.user.username}
+            </p>
+            <p>{tweet.content}</p>
+            <ParentTweet tweet={tweet} retweeter={tweet.user} />
           </div>
   
-        <div className='btn btn-group' >
+        <div className='btn btn-group px-0' >
 
        {(actionTweet && hideActions !== true ) &&  <React.Fragment>
             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{type:"like", display:"Likes"}} />
@@ -57,7 +66,10 @@ export function Tweet(props) {
        }
             {isDetail===true ? null : <button className='btn btn-outline-primary button-sm' onClick={handleLink}>View</button>}
           </div> 
+
+          </div>
          
+      </div>
       </div>)
     }
     
