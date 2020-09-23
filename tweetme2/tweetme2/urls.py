@@ -28,8 +28,9 @@ from accounts.views import (
 )
 
 urlpatterns = [
+    path('', home_view),
     path('admin/', admin.site.urls),
-    path('', tweets_list_view),
+    path('global/', tweets_list_view),
     path('login/', login_view),
     path('logout/', logout_view),
     path('register/', register_view),

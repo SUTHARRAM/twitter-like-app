@@ -4,6 +4,9 @@ from .forms import ProfileForm
 
 from .models import Profile
 
+def home_view(request, *args, **kwargs):
+    return render(request, "pages/feed.html")
+
 def profile_update_view(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect("/login?next=/profile/update")
