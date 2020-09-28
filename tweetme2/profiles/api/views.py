@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 
 from ..models import Profile
+from ..serializers import PublicProfileSerializer
 
 from django.contrib.auth import get_user_model
 
@@ -50,4 +51,16 @@ def user_follow_view(request, username, *args, **kwargs):
     current_followers_qs = profile.followers.all()
     qs_count = current_followers_qs.count()
     return Response({"count": qs_count}, status=200)
+
+@api_view(['GET'])
+def profile_detail_api_view(request, username, *args, **kwargs):
+    # get the profile for the passed username
+    qs = Profile.objects.filter(user__username=username)
+    if not qs.exists():
+        raise Response({"detail":"User not found!"},status=404)
+    profile_obj = qs.first()
+    data = PublicProfileSerializer(instance = profile_obj)
+    return Response(data.data, status=200) 
+
+
 
